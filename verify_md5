@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+if ARGV.length == 0
+  puts "no argument."
+  exit
+end
+
+file = ARGV[0]
+if !File.exists?(file + ".md5")
+  puts "no md5 file."
+  exit
+end
+
+puts "calculating md5 sum: #{file}"
+md5 = `md5 #{file}`
+puts md5
+expected = `cat #{file}.md5`
+if md5 == expected
+  puts "ok."
+else
+  puts "broken."
+end

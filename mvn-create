@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+  echo "no parameter."
+  exit
+fi
+
+mvn archetype:create -DgroupId=$1 -DartifactId=$2
+cd $2
+mvn eclipse:eclipse

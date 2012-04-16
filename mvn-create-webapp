@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mvn archetype:create -DgroupId=$1 -DartifactId=$2 -DarchetypeArtifactId=maven-archetype-webapp
+cd $2
+mvn eclipse:eclipse
