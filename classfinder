@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 
 if ARGV.length < 2
-  puts "need two arguments."
+  puts <<-EOS
+  Usage:
+  > #{File.basename(__FILE__)} <directory> <pattern>
+  EOS
   exit
 end
 
