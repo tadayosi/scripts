@@ -11,11 +11,24 @@ if !File.exists?(file + ".md5")
   exit
 end
 
+os = `uname`
+if os.start_with? "Linux"
+  md5 = "md5sum"
+else
+  md5 = "md5"
+end
+
 puts "calculating md5 sum: #{file}"
-md5 = `md5 #{file}`
-puts md5
+md5 = `#{md5} #{file}`
+puts "actual:   #{md5}"
+if os.start_with? "Linux"
+  md5 = md5.split[0]
+else
+  md5 = md5.split[3]
+end
 expected = `cat #{file}.md5`
-if md5 == expected
+puts "expected: #{expected}"
+if expected.include? md5
   puts "ok."
 else
   puts "broken."
