@@ -1,0 +1,2 @@
+#!/bin/sh
+grep -nEe "WARN|ERROR|Caused by" -e "^[._[:alnum:]]+(Exception|Error)" $*
