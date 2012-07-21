@@ -28,7 +28,7 @@ else
 end
 expected = `cat #{file}.md5`
 puts "expected: #{expected}"
-if expected.include? md5
+if expected.downcase.include? md5
   puts "ok."
 else
   puts "broken."
