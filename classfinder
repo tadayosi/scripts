@@ -15,6 +15,7 @@ jars = `find #{target_dir} -name '*.jar' -type f`
 jars.split.each { |jar|
   result = `jar tf #{jar} | grep #{pattern}`
   if !result.empty?
-    puts "Found #{result} in #{jar}"
+    puts "#{jar}:"
+    result.lines { |line| puts "  #{line}" }
   end
 }
