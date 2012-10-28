@@ -1,0 +1,24 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+  echo "Specify target to backup."
+  exit
+fi
+
+date=`date +%Y%m%d`
+target=$1
+backup=$target-$date
+
+echo "generating $backup.tar ..."
+tar cvf $backup.tar $target
+
+echo "compressing $backup.tar ..."
+gzip -9 $backup.tar
+
+echo "generating md5 checksum ..."
+linux=`uname | grep Linux`
+if [ -z $linux ]; then
+  echo md5 $backup.tar.gz > $backup.tar.gz.md5
+else
+  echo md5sum $backup.tar.gz > $backup.tar.gz.md5
+fi
