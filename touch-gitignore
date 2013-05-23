@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+  DIR=.
+else
+  DIR=$1
+fi
+
+if [ -f "$DIR/.gitignore" ]; then
+  echo "$DIR/.gitignore already exists."
+else
+  touch $DIR/.gitignore
+fi
