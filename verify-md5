@@ -6,7 +6,12 @@ if ARGV.length == 0
 end
 
 file = ARGV[0]
-if !File.exists?(file + ".md5")
+ext = nil
+if File.exists?(file + ".md5")
+  ext = "md5"
+elsif File.exists?(file + ".MD5")
+  ext = "MD5"
+else
   puts "no md5 file."
   exit
 end
@@ -26,7 +31,7 @@ if os.start_with? "Linux"
 else
   md5 = md5.split[3]
 end
-expected = `cat #{file}.md5`
+expected = `cat #{file}.#{ext}`
 puts "expected: #{expected}"
 if expected.downcase.include? md5
   puts "ok."
