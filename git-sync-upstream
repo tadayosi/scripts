@@ -1,0 +1,20 @@
+#!/bin/sh
+
+echo ===========================================================================
+echo ===== git checkout master
+git checkout master
+
+echo
+echo ===========================================================================
+echo ===== git pull --all
+git pull --all
+
+echo
+echo ===========================================================================
+echo ===== git pull upstream master
+git pull upstream master
+
+echo
+echo ===========================================================================
+echo ===== git push origin master
+git push origin master
