@@ -3,5 +3,5 @@
 if [ "x$1" = "x" ]; then
   echo 'grep -nEe "WARN|ERROR|Caused by" -e "^[._[:alnum:]]+(Exception|Error)"'
 else
-  grep -Ee "WARN|ERROR|Caused by" -e "^[._[:alnum:]]+(Exception|Error)" $*
+  grep --color=auto -nEe "WARN|ERROR|Caused by" -e "^[._[:alnum:]]+(Exception|Error)" $*
 fi
