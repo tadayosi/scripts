@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -z $2 ]; then
+  echo "Usage: ${0##*/} <oldVersion> <newVersion>"
+  exit
+fi
+
+mvn org.switchyard:switchyard-plugin:setVersion -DoldVersion=$1 -DnewVersion=$2
