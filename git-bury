@@ -5,4 +5,5 @@ if [ -z $1 ]; then
   exit
 fi
 
+echo "> git branch -m $1 _$1"
 git branch -m $1 _$1
