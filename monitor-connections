@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ -e $1 ]; then
+  echo "Usage: > monitor-connections <port>"
+  exit
+fi
+
+while [ 1 ]
+do
+  echo -----------------------------------------------------------------------------------
+  netstat -a | grep "$1"
+  netstat -a | grep "$1" | wc -l
+  sleep 5
+done
+

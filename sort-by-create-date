@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require 'date'
+require 'fileutils'
+
+dir = "."
+if ARGV.length > 0
+  dir = ARGV[0]
+end
+
+Dir.foreach(dir) { |f|
+  path = File.realpath(f, dir)
+  next if !File.file?(path)
+  next if File.identical?(path, __FILE__)
+
+  file = File.new(path)
+  if RbConfig::CONFIG['host_os'] =~ /darwin|mac/
+    create_date = Date.strptime(`GetFileInfo -d #{path}`, "%m/%d/%Y")
+  else
+    create_date = file.mtime
+  end
+  puts "#{create_date.strftime("%Y-%m-%d")} - #{path}"
+  create_date_dir = "#{dir}/#{create_date.strftime("%Y%m%d")}"
+  Dir.mkdir(create_date_dir) if !Dir.exist?(create_date_dir)
+  FileUtils.mv(path, create_date_dir)
+}

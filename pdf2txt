@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+Dir.mkdir("txt") if !Dir.exists?("txt")
+count = 0
+Dir.foreach(".") { |f|
+  txt = File.basename(f, ".pdf") + ".txt"
+  next if f !~ /.+[.]pdf/ || File.exists?("txt/#{txt}")
+  puts "pdftotxt #{f}"
+  `pdftotext #{f}; mv #{txt} txt/`
+  count += 1
+}
+puts "no PDF to process." if count == 0
