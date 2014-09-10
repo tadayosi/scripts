@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd
+if [ -e .git_ ]; then
+    mv .git_ .git
+fi
