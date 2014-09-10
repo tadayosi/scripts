@@ -1,11 +1,21 @@
 #!/usr/bin/env ruby
 
+def usage
+  puts "Usage: #{File.basename(__FILE__)} [-git] <target project>"
+end
+
 if ARGV.length < 1
-  puts "Usage: #{File.basename(__FILE__)} <target project>"
+  usage
   exit
 end
 
-target = ARGV[0].chomp("/")
+target_arg = ARGV.select { |arg| arg !~ /^-.*$/ }
+if target_arg.empty?
+  usage
+  exit
+end
+target = target_arg[0].chomp("/")
+
 zip = target + ".zip"
 if File.exists?(zip)
   puts "deleting existing #{zip}"
@@ -20,9 +30,14 @@ srcs = `find #{target} -name src -type d`.split
 
 # files
 (docs + poms + gradles + soapuis).each { |entry|
-  `zip #{zip} #{entry}` if entry !~ /\/bin\/|\/build\/|\/target\//
+  `zip #{zip} #{entry}` if entry !~ /\/bin\/|\/build\/|\/target\/|\/\..+\//
 }
 # dirs
 srcs.each { |entry|
-  `zip #{zip} -r #{entry}` if entry !~ /\/bin\/|\/build\/|\/target\//
+  `zip #{zip} -r #{entry}` if entry !~ /\/bin\/|\/build\/|\/target\/|\/\..+\//
 }
+
+if ARGV.include? "-git"
+  `zip #{zip} -r .git`
+  `zip #{zip} .gitignore`
+end
