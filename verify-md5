@@ -6,7 +6,6 @@ if ARGV.length == 0
 end
 
 file = ARGV[0]
-ext = nil
 if File.exists?(file + ".md5")
   ext = "md5"
 elsif File.exists?(file + ".MD5")
@@ -16,25 +15,18 @@ else
   exit
 end
 
-os = `uname`
-if os.start_with? "Linux"
+linux = RbConfig::CONFIG['host_os'] =~ /linux/
+if linux
   md5 = "md5sum"
 else
   md5 = "md5"
 end
 
 puts "calculating md5 sum: #{file}"
-md5 = `#{md5} #{file}`
-puts "actual:   #{md5}"
-if os.start_with? "Linux"
-  md5 = md5.split[0]
-else
-  md5 = md5.split[3]
-end
-expected = `cat #{file}.#{ext}`
+checksum = `#{md5} "#{file}"`
+puts "actual:   #{checksum}"
+checksum = linux ? checksum.split[0] : checksum.split[3]
+
+expected = `cat "#{file}.#{ext}"`
 puts "expected: #{expected}"
-if expected.downcase.include? md5
-  puts "ok."
-else
-  puts "broken."
-end
+puts expected.downcase.include?(checksum) ? "ok." : "broken."
