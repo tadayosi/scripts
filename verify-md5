@@ -2,7 +2,7 @@
 
 if ARGV.length == 0
   puts "no argument."
-  exit
+  exit 1
 end
 
 file = ARGV[0]
@@ -12,7 +12,7 @@ elsif File.exists?(file + ".MD5")
   ext = "MD5"
 else
   puts "no md5 file."
-  exit
+  exit 1
 end
 
 linux = RbConfig::CONFIG['host_os'] =~ /linux/

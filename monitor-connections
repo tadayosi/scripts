@@ -2,7 +2,7 @@
 
 if [ -e $1 ]; then
   echo "Usage: > monitor-connections <port>"
-  exit
+  exit 1
 fi
 
 while [ 1 ]

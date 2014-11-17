@@ -2,7 +2,7 @@
 
 if [ -z $1 ]; then
   echo "Specify target to backup."
-  exit
+  exit 1
 fi
 
 date=`date +%Y%m%d`

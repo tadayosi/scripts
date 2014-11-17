@@ -6,13 +6,13 @@ end
 
 if ARGV.length < 1
   usage
-  exit
+  exit 1
 end
 
 target_arg = ARGV.select { |arg| arg !~ /^-.*$/ }
 if target_arg.empty?
   usage
-  exit
+  exit 1
 end
 target = target_arg[0].chomp("/")
 

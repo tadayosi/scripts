@@ -1,21 +1,17 @@
 #!/usr/bin/env ruby
 
 if ARGV.length < 2
-  puts <<-EOS
-  Usage:
-  > #{File.basename(__FILE__)} <directory> <pattern>
-  EOS
-  exit
+  puts "Usage: #{File.basename(__FILE__)} <directory> <pattern>"
+  exit 1
 end
 
-target_dir = ARGV[0]
-pattern = ARGV[1].gsub(".", "/")
+target_dir = ARGV.shift
+pattern = ARGV.shift.gsub(".", "/")
 
 jars = `find #{target_dir} -name '*.jar' -type f`
 jars.split.each { |jar|
   result = `jar tf #{jar} | grep #{pattern}`
-  if !result.empty?
-    puts "#{jar}:"
-    result.lines { |line| puts "  #{line}" }
-  end
+  next if result.empty?
+  puts "#{jar}:"
+  result.lines { |line| puts "  #{line}" }
 }

@@ -2,7 +2,7 @@
 
 if [ -z $1 ]; then
   echo "Usage: git bury <branch>"
-  exit
+  exit 1
 fi
 
 echo "> git branch -m $1 _$1"

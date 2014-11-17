@@ -2,7 +2,7 @@
 
 if [ -z $1 ]; then
   echo "no parameter."
-  exit
+  exit 1
 fi
 
 mvn archetype:create -DgroupId=$1 -DartifactId=$2

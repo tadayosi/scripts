@@ -5,7 +5,7 @@ import java.io._
 if (args.length < 3 || args(0).contains("help")) {
   println("""usage:
   > zeropad.scala <target dir> <file extension> <filename length>""")
-  sys.exit
+  sys.exit(1)
 }
 
 new File(args(0)).listFiles
