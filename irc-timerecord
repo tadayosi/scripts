@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+
+debug = false
+OptionParser.new { |opts|
+  opts.version = "0.1"
+  opts.banner = <<EOS
+XChat Log Analyser #{opts.version}
+
+Usage: #{File.basename($PROGRAM_NAME)} [options] [1..12]
+
+EOS
+  opts.on("-d", "--debug", "Outputs debug log") { debug = true }
+  opts.parse!(ARGV)
+}
+
+CONFIG_FILE = File.join(ENV["HOME"], ".#{File.basename($PROGRAM_NAME)}")
+if !File.exist? CONFIG_FILE
+  STDERR.puts "Config file '#{CONFIG_FILE}' doesn't exist."
+  exit 1
+end
+log_file = File.read(CONFIG_FILE).strip
+puts "Log file: #{log_file}" if debug
+
+year_month = ARGV[0] ? Time.new(Time.now.year, ARGV[0]) : Time.now
+
+record = []
+File.open(log_file).each { |line|
+  next if line !~ /^[*]{4}/
+  beg = line.split[1] == "BEGIN" ? true : false
+  y = line.split[8].to_i
+  m = line.split[5]
+  d = line.split[6].to_i
+  t = line.split[7]
+
+  next if y != year_month.year
+  next if m != year_month.strftime("%b")
+  puts line if debug
+  if record[d]
+    if beg
+      record[d] << t + " ~ "
+    else
+      record[d][record[d].length - 1] += t
+    end
+  else
+    record[d] = [t + (beg ? " ~ " : "")]
+  end
+}
+
+record.each_index { |d|
+  next if d == 0
+  out = d.to_s + ", " + Time.new(year_month.year, year_month.month, d).strftime("%a") + ", "
+  out += record[d].join(", ") if record[d]
+  puts out
+}
