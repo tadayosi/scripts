@@ -23,7 +23,11 @@ end
 log_file = File.read(CONFIG_FILE).strip
 puts "Log file: #{log_file}" if debug
 
-year_month = ARGV[0] ? Time.new(Time.now.year, ARGV[0]) : Time.now
+year_month = Time.now
+if ARGV[0]
+  year = ARGV[0] == "12" ? year_month.year - 1 : year_month.year
+  year_month = Time.new(year, ARGV[0])
+end
 
 record = []
 File.open(log_file).each { |line|
