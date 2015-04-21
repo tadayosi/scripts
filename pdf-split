@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -z $3 ]; then
+  echo "Usage: pdf-split <input.pdf> <xx-xx> <output.pdf>"
+  exit 1
+fi
+
+pdftk $1 cat $2 output $3
