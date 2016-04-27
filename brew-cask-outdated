@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+ignores = []
+ignore_file = File.join(ENV["HOME"], ".#{File.basename($PROGRAM_NAME)}-ignore")
+if File.exist? ignore_file
+  ignores = File.read(ignore_file).strip.split
+end
+
+list = `brew cask list | xargs brew cask info | grep "Not installed" -B 3`.split("--")
+list.each { |app|
+  next if ignores.find_index { |ignore| app.include?(ignore) } != nil
+  puts app.strip.split("\n").first
+}
