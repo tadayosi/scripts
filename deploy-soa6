@@ -1,9 +1,0 @@
-#!/bin/sh
-
-SOA6_DEPLOY=/opt/jboss-fsw-6.0.0.GA-full/jboss-eap-6.1/standalone/deployments/
-
-if [ -z $1 ]; then
-  echo "Specify deployment."
-  exit 1
-fi
-cp $1 $SOA6_DEPLOY
