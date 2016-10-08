@@ -3,11 +3,25 @@
 ignores = []
 ignore_file = File.join(ENV["HOME"], ".#{File.basename($PROGRAM_NAME)}-ignore")
 if File.exist? ignore_file
-  ignores = File.read(ignore_file).strip.split
+  ignores = File.read(ignore_file).strip.split.inject(Hash.new) { |is, i| is[i] = nil; is }
 end
 
-list = `brew cask list | xargs brew cask info | grep "Not installed" -B 3`.split("--")
-list.each { |app|
-  next if ignores.find_index { |ignore| app.include?(ignore) } != nil
-  puts app.strip.split("\n").first
+apps = `brew cask list`.split
+versions = apps.inject(Hash.new) { |vs, a| vs[a] = nil; vs }
+info = `brew cask info #{apps.join(" ")}`.split("\n")
+info.each { |line|
+  if line.start_with?("/usr/local/Caskroom/")
+    installed_app_version = line.split("/")
+    app = installed_app_version[4]
+    installed_version = installed_app_version[5].split.first
+    next if ignores.key?(app)
+    if versions[app] != installed_version
+      puts "#{app}: #{installed_version} -> #{versions[app]}"
+    end
+  else
+    app_version = line.split(": ")
+    if app_version.length == 2 && versions.key?(app_version[0])
+      versions[app_version[0]] = app_version[1]
+    end
+  end
 }
