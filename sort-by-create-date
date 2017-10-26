@@ -15,7 +15,7 @@ Dir.foreach(dir) { |f|
 
   file = File.new(path)
   if RbConfig::CONFIG['host_os'] =~ /darwin|mac/
-    create_date = Date.strptime(`GetFileInfo -d #{path}`, "%m/%d/%Y")
+    create_date = Date.strptime(`GetFileInfo -d "#{path}"`, "%m/%d/%Y")
   else
     create_date = file.mtime
   end
