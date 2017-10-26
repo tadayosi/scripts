@@ -1,7 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'webrick'
-include WEBrick
-
-port = if ARGV[0] then ARGV[0] else 8080 end
-HTTPServer.new(:Port=>port, :DocumentRoot=>".").start
