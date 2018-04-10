@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+  echo "Usage: `basename $0` <vm name>"
+  exit 1
+fi
+
+VM_NAME=$1
+RUNNING_VM=`VBoxManage list runningvms | grep $VM_NAME`
+if [ "$RUNNING_VM" != "" ]; then
+    echo "Running: $RUNNING_VM"
+    exit 1
+fi
+
+echo VBoxManage modifymedium $VM_NAME.vdi --compact
+VBoxManage modifymedium $VM_NAME.vdi --compact
