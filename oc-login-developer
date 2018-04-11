@@ -1,0 +1,5 @@
+#!/bin/sh
+
+CMD="oc login ${1:-"localhost"}:8443 -u developer -p developer"
+echo $CMD
+$CMD
