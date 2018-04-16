@@ -1,5 +1,11 @@
 #!/bin/sh
 
-CMD="oc login ${1:-"localhost"}:8443 -u developer -p developer"
+HOST=
+
+if [ -n "$1" ]; then
+  HOST=$1:8443
+fi
+
+CMD="oc login $HOST -u developer -p developer"
 echo $CMD
 $CMD
