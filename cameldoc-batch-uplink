@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ls .. | xargs -t -n 1 cameldoc-uplink

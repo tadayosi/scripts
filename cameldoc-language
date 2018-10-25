@@ -1,0 +1,4 @@
+#!/bin/sh
+
+#ag "link:$1.html\[$2]" -l | xargs sed -i "s/link:$1.html\[$2]/<<$1-language,$2>>/g"
+replace-all "link:$1.html\[$2]" "<<$1-language,$2>>"
