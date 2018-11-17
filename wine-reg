@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -z $2 ]; then
+    echo "Usage:"
+    echo "  `basename $0` <appid> <reg subcommand> [args]*"
+    exit 1
+fi
+
+APPID=$1
+STEAM_LIBRARY=~/.local/share/Steam/steamapps
+env WINEPREFIX=$STEAM_LIBRARY/compatdata/$APPID/pfx wine reg $2 $3 $4 $5
