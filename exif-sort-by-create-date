@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+require 'date'
+require 'fileutils'
+require 'exiftool'
+
+if ARGV.length < 1
+  puts "Usage: #{File.basename(__FILE__)} PATH"
+  exit 1
+end
+
+dir = ARGV[0]
+
+def create_date_exiftool(path)
+  exif = Exiftool.new(path)
+  exif[:create_date_civil]
+end
+
+def create_date_system(path)
+  file = File.new(path)
+  if RbConfig::CONFIG['host_os'] =~ /darwin|mac/
+    Date.strptime(`GetFileInfo -d "#{path}"`, "%m/%d/%Y")
+  else
+    file.mtime
+  end
+end
+
+def sort_file(dir, path, create_date, source)
+  puts "#{create_date.strftime("%Y-%m-%d")} - #{path} (#{source})"
+  create_date_dir = "#{dir}/#{create_date.strftime("%Y%m%d")}"
+  Dir.mkdir(create_date_dir) if !Dir.exist?(create_date_dir)
+  FileUtils.mv(path, create_date_dir)
+end
+
+Dir.foreach(dir) { |f|
+  path = File.realpath(f, dir)
+  next if !File.file?(path)
+  next if File.identical?(path, __FILE__)
+
+  create_date = create_date_exiftool(path)
+  source = "exif"
+  if create_date == nil
+    create_date = create_date_system(path)
+    source = "system"
+  end
+  sort_file(dir, path, create_date, source)
+}
