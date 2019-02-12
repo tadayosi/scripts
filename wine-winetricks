@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+    echo "Usage:"
+    echo "  `basename $0` <appid>"
+    exit 1
+fi
+
+APPID=$1
+STEAM_LIBRARY=~/.local/share/Steam/steamapps
+env WINEPREFIX=$STEAM_LIBRARY/compatdata/$APPID/pfx winetricks
