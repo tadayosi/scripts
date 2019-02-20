@@ -2,3 +2,5 @@
 !.gitignore
 Icon?
 diff-highlight
+rake
+syndesis

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sudo grep ^menuent /boot/efi/EFI/centos/grub.cfg | awk -F\' '{ print i++ " - " $2 }'
