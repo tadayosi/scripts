@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cd $HOME/projects/syndesis/syndesis
+
+cd app/
+./mvnw -Pflash -Pimage -Dfabric8.mode=openshift install -f server
+
+cd ..
+./tools/misc/build_s2i_locally.sh

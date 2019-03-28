@@ -1,0 +1,6 @@
+#!/bin/sh
+
+for f in *.dds
+do
+    convert $f "$(basename $f .dds).png";
+done
