@@ -1,9 +1,15 @@
 #!/bin/sh
 
-cd $HOME/projects/syndesis/syndesis
+SD_HOME=$HOME/projects/syndesis/syndesis
+
+eval $(minishift oc-env)
+eval $(minishift docker-env)
+
+cd $SD_HOME
 
 cd app/
+./mvnw -Pflash -Pimage -Dfabric8.mode=openshift install -f meta
 ./mvnw -Pflash -Pimage -Dfabric8.mode=openshift install -f server
 
-cd ..
+cd $SD_HOME
 ./tools/misc/build_s2i_locally.sh
