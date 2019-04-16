@@ -6,11 +6,6 @@ git checkout master
 
 echo
 echo ===========================================================================
-echo ===== git pull --all
-git pull --all
-
-echo
-echo ===========================================================================
 echo ===== git pull upstream master
 git pull upstream master
 
