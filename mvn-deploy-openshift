@@ -1,0 +1,10 @@
+#!/bin/sh
+
+settings=""
+if [ -n "$1" ]; then
+  settings="-s $1"
+fi
+
+cmd="mvn $settings fabric8:deploy -Popenshift -Dfabric8.deploy.createExternalUrls=true"
+echo $cmd
+$cmd
