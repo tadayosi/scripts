@@ -1,15 +1,18 @@
 #!/bin/sh
 
-echo ===========================================================================
-echo ===== git checkout master
+color=`tput setaf $(( $RANDOM % 6 + 1 )) && tput bold`
+end=`tput sgr0`
+
+echo ${color}===========================================================================${end}
+echo ${color}===== git checkout master${end}
 git checkout master
 
 echo
-echo ===========================================================================
-echo ===== git pull upstream master
+echo ${color}===========================================================================${end}
+echo ${color}===== git pull upstream master${end}
 git pull upstream master
 
 echo
-echo ===========================================================================
-echo ===== git push origin master
+echo ${color}===========================================================================${end}
+echo ${color}===== git push origin master${end}
 git push origin master
