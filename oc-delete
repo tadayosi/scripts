@@ -9,14 +9,15 @@ if [ -z $1 ]; then
 fi
 
 pods="$(oc get pods -o name | grep $1)"
-n=`echo "$pods" | wc -l`
+
 if [ "$pods" == "" ]; then
   echo ${color}Pod name \"$1\" not found${end}
   exit 0
 fi
-if [ $n -eq 1 ]; then
+
+echo "$pods"
+read -p "Delete these pods? [y/N]: " yn
+
+if [ "$yn" == "y" ]; then
   echo $pods | xargs oc delete
-else
-  echo ${color}Pod name \"$1\" is ambiguous:${end}
-  echo "$pods"
 fi
