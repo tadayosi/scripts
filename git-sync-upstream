@@ -15,4 +15,9 @@ git pull upstream master
 echo
 echo ${color}===========================================================================${end}
 echo ${color}===== git push origin master${end}
+origin=`git remote | grep origin`
+if [ "$origin" == "" ]; then
+  echo No origin remote repository
+  exit 0
+fi
 git push origin master
