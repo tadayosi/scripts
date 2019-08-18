@@ -32,10 +32,13 @@ def sort_file(dir, path, create_date, source)
   FileUtils.mv(path, create_date_dir)
 end
 
+ignores = [".DS_Store"]
+
 Dir.foreach(dir) { |f|
   path = File.realpath(f, dir)
   next if !File.file?(path)
   next if File.identical?(path, __FILE__)
+  next if ignores.include?(File.basename(path))
 
   create_date = create_date_exiftool(path)
   source = "exif"
