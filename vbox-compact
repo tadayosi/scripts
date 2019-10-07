@@ -1,16 +1,28 @@
 #!/bin/sh
 
+echo =======================================================
+echo Run the following command on host OS before executing
+echo this task:
+echo "  (windows) sdelete -z C:"
+echo "  (linux)   dd if=/dev/zero of=zero bs=4k; rm zero"
+echo =======================================================
+echo
+
 if [ -z $1 ]; then
   echo "Usage: `basename $0` <vm name>"
   exit 1
 fi
 
 VM_NAME=$1
-RUNNING_VM=`VBoxManage list runningvms | grep $VM_NAME`
+RUNNING_VM=`vboxmanage list runningvms | grep $VM_NAME`
 if [ "$RUNNING_VM" != "" ]; then
-    echo "Running: $RUNNING_VM"
+    echo "Running VMs:"
+    echo "  $RUNNING_VM"
+    echo "Shut down the running VMs first"
     exit 1
 fi
 
-echo VBoxManage modifymedium $VM_NAME.vdi --compact
-VBoxManage modifymedium $VM_NAME.vdi --compact
+location=`vboxmanage list -l hdds | grep Location | grep $VM_NAME`
+echo Compressing $location...
+echo vboxmanage modifymedium --compact $location
+vboxmanage modifymedium --compact $location
