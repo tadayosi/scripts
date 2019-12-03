@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "Update /etc/default/grub before running this command."
+sudo grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
