@@ -1,4 +1,6 @@
 #!/bin/sh
 
 echo ".*" >> .gitignore
+echo "!.gitignore" >> .gitignore
+echo "!.editorconfig" >> .gitignore
 echo target/ >> .gitignore

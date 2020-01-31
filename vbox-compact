@@ -16,13 +16,17 @@ fi
 VM_NAME=$1
 RUNNING_VM=`vboxmanage list runningvms | grep $VM_NAME`
 if [ "$RUNNING_VM" != "" ]; then
-    echo "Running VMs:"
-    echo "  $RUNNING_VM"
-    echo "Shut down the running VMs first"
-    exit 1
+  echo "Running VMs:"
+  echo "  $RUNNING_VM"
+  echo "Shut down the running VMs first"
+  exit 1
 fi
 
-location=`vboxmanage list -l hdds | grep Location | grep $VM_NAME`
-echo Compressing $location...
-echo vboxmanage modifymedium --compact $location
-vboxmanage modifymedium --compact $location
+LOCATION=`vboxmanage list -l hdds | grep Location | grep $VM_NAME | awk '{ print $2 }'`
+if [ "$LOCATION" == "" ]; then
+  echo "Error - location not found: $LOCATION"
+  exit 1
+fi
+echo Compressing $LOCATION...
+echo vboxmanage modifymedium --compact $LOCATION
+vboxmanage modifymedium --compact $LOCATION
