@@ -1,0 +1,8 @@
+#!/bin/sh
+
+RAM_DISK="RamDisk"
+RAM_SIZE=4096000
+
+if [ ! -e /Volumes/$RAM_DISK ]; then
+    diskutil erasevolume HFS+ "$RAM_DISK" `hdiutil attach -nomount ram://$RAM_SIZE`
+fi
