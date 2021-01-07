@@ -3,5 +3,5 @@
 color=`tput setaf 2`
 end=`tput sgr0`
 
-echo ${color}"> du -B M -d 1 -t ${1:-\"100M\"} | sort -n --reverse"${end}
-du -B M -d 1 -t ${1:-"100M"} | sort -n --reverse
+echo ${color}"> sudo du -B M -d 1 -t ${1:-\"100M\"} | sort -n --reverse"${end}
+sudo du -B M -d 1 -t ${1:-"100M"} | sort -n --reverse
