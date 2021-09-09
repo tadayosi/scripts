@@ -1,3 +1,4 @@
 #!/bin/sh
 
-sudo grep ^menuent /boot/efi/EFI/centos/grub.cfg | awk -F\' '{ print i++ " - " $2 }'
+#sudo grep ^menuent /boot/efi/EFI/fedora/grub.cfg | awk -F\' '{ print i++ " - " $2 }'
+sudo grubby --info=ALL | grep -E "^index|^kernel"
