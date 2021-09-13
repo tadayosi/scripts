@@ -8,4 +8,4 @@ fi
 user_host=$1
 pass=$2
 guid=`echo $user_host | cut -d@ -f2 | cut -d. -f2`
-sshpass -p "$pass" ssh -oStrictHostKeyChecking=no -t $user_host "sudo tail /home/ec2-user/cluster-$guid/.openshift_install.log"
+sshpass -p "$pass" ssh -oStrictHostKeyChecking=no -t $user_host "sudo tail /home/cloud-user/cluster-$guid/.openshift_install.log" | grep "Login to the console with user"
