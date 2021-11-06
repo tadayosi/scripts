@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'date'
 require 'fileutils'
 require 'exiftool'
 
-if ARGV.length < 1
+if ARGV.empty?
   puts "Usage: #{File.basename(__FILE__)} PATH"
   exit 1
 end
@@ -19,32 +20,35 @@ end
 def create_date_system(path)
   file = File.new(path)
   if RbConfig::CONFIG['host_os'] =~ /darwin|mac/
-    Date.strptime(`GetFileInfo -d "#{path}"`, "%m/%d/%Y")
+    cdate = Date.strptime(`GetFileInfo -d "#{path}"`, '%m/%d/%Y')
+    mdate = Date.strptime(`GetFileInfo -m "#{path}"`, '%m/%d/%Y')
   else
-    file.mtime
+    cdate = file.ctime
+    mdate = file.mtime
   end
+  [cdate, mdate].min
 end
 
 def sort_file(dir, path, create_date, source)
-  puts "#{create_date.strftime("%Y-%m-%d")} - #{path} (#{source})"
-  create_date_dir = "#{dir}/#{create_date.strftime("%Y%m%d")}"
-  Dir.mkdir(create_date_dir) if !Dir.exist?(create_date_dir)
+  puts "#{create_date.strftime('%Y-%m-%d')} - #{path} (#{source})"
+  create_date_dir = "#{dir}/#{create_date.strftime('%Y%m%d')}"
+  Dir.mkdir(create_date_dir) unless Dir.exist?(create_date_dir)
   FileUtils.mv(path, create_date_dir)
 end
 
-ignores = [".DS_Store"]
+ignores = ['.DS_Store']
 
-Dir.foreach(dir) { |f|
+Dir.foreach(dir) do |f|
   path = File.realpath(f, dir)
-  next if !File.file?(path)
+  next unless File.file?(path)
   next if File.identical?(path, __FILE__)
   next if ignores.include?(File.basename(path))
 
   create_date = create_date_exiftool(path)
-  source = "exif"
-  if create_date == nil
+  source = 'exif'
+  if create_date.nil?
     create_date = create_date_system(path)
-    source = "system"
+    source = 'system'
   end
   sort_file(dir, path, create_date, source)
-}
+end

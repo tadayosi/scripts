@@ -1,26 +1,30 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'date'
 require 'fileutils'
 
-dir = "."
-if ARGV.length > 0
-  dir = ARGV[0]
+if ARGV.empty?
+  puts "Usage: #{File.basename(__FILE__)} PATH"
+  exit 1
 end
 
-Dir.foreach(dir) { |f|
+Dir.foreach(dir) do |f|
   path = File.realpath(f, dir)
-  next if !File.file?(path)
+  next unless File.file?(path)
   next if File.identical?(path, __FILE__)
 
   file = File.new(path)
   if RbConfig::CONFIG['host_os'] =~ /darwin|mac/
-    create_date = Date.strptime(`GetFileInfo -d "#{path}"`, "%m/%d/%Y")
+    cdate = Date.strptime(`GetFileInfo -d "#{path}"`, '%m/%d/%Y')
+    mdate = Date.strptime(`GetFileInfo -m "#{path}"`, '%m/%d/%Y')
   else
-    create_date = file.mtime
+    cdate = file.ctime
+    mdate = file.mtime
   end
-  puts "#{create_date.strftime("%Y-%m-%d")} - #{path}"
-  create_date_dir = "#{dir}/#{create_date.strftime("%Y%m%d")}"
-  Dir.mkdir(create_date_dir) if !Dir.exist?(create_date_dir)
+  create_date = [cdate, mdate].min
+  puts "#{create_date.strftime('%Y-%m-%d')} - #{path}"
+  create_date_dir = "#{dir}/#{create_date.strftime('%Y%m%d')}"
+  Dir.mkdir(create_date_dir) unless Dir.exist?(create_date_dir)
   FileUtils.mv(path, create_date_dir)
-}
+end
