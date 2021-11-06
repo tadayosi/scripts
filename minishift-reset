@@ -1,4 +1,4 @@
 #!/bin/sh
 
 minishift delete
-minishift start --memory=8192 --iso-url=file://$HOME/minishift-iso/centos/v1.15.0/minishift-centos7.iso
+minishift start --iso-url=file://$HOME/minishift-iso/centos/v1.15.0/minishift-centos7.iso

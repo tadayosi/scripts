@@ -1,0 +1,7 @@
+#!/bin/sh
+
+color=`tput setaf 2`
+end=`tput sgr0`
+
+echo ${color}'>' git shortlog --summary --numbered --email${end}
+git shortlog --summary --numbered --email
