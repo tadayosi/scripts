@@ -1,6 +1,0 @@
-#!/bin/sh
-
-PUBLIC_HOSTNAME=127.0.0.1
-HOST_DATA_DIR=$HOME/work/openshift/data
-echo "oc cluster up --public-hostname=$PUBLIC_HOSTNAME --host-data-dir=$HOST_DATA_DIR"
-oc cluster up --public-hostname=$PUBLIC_HOSTNAME --host-data-dir=$HOST_DATA_DIR
