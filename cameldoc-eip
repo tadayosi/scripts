@@ -1,4 +1,0 @@
-#!/bin/sh
-
-cameldoc-ref "$1" "$2"
-replace-all "<<$1,$2>>" "<<$3,$2>>"
