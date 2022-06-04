@@ -1,9 +1,0 @@
-#!/bin/sh
-
-if [ -z $1 ]; then
-  echo "Usage: brew cask-upgrade <app>"
-  exit 1
-fi
-
-brew cask uninstall $1
-brew cask install $1
