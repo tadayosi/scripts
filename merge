@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -o noclobber
+
+red=`tput setaf 1`
+end=`tput sgr0`
+
+if [ -z $2 ]; then
+  cat <<EOT
+Usage:
+  $(basename $0) <source> <target>
+EOT
+  exit
+fi
+
+source=$1
+target=$2
+
+if [ ! -d $source ]; then
+  echo ${red}"🔥 Directory does not exist. > $source"${end} 1>&2
+  exit 1
+else
+  source=$(dirname $source)/$(basename $source)
+fi
+if [ ! -d $target ]; then
+  echo ${red}"🔥 Diretory does not exist. > $target"${end} 1>&2
+  exit 1
+else
+  target=$(dirname $target)/$(basename $target)
+fi
+
+echo "Merging $source/ -> $target/..."
+
+# moving
+for d in $source/*; do
+  if [ -d $d ]; then
+    mv -nv $d $target/
+  fi
+done
+
+# merging
+for d in $source/*; do
+  if [ -d $d ]; then
+    mv -nv $d/* $target/$(basename $d)/
+  fi
+done
