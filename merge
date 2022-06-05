@@ -5,13 +5,32 @@ set -o noclobber
 red=`tput setaf 1`
 end=`tput sgr0`
 
-if [ -z $2 ]; then
+usage() {
   cat <<EOT
 Usage:
   $(basename $0) <source> <target>
 EOT
+}
+
+if [ -z $2 ]; then
+  usage
   exit
 fi
+
+dryrun=
+
+while getopts hd OPT; do
+  case $OPT in
+    h)
+      usage
+      exit
+      ;;
+    d)
+      dryrun=true
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
 
 source=$1
 target=$2
@@ -33,14 +52,22 @@ echo "Merging $source/ -> $target/..."
 
 # moving
 for d in $source/*; do
-  if [ -d $d ]; then
+  if [ ! -d $d ]; then
+    continue
+  fi
+  if [ "$dryrun" == "true" ]; then
+    echo mv -nv $d $target/
+  else
     mv -nv $d $target/
   fi
 done
 
 # merging
-for d in $source/*; do
-  if [ -d $d ]; then
+if [ "$dryrun" != "true" ]; then
+  for d in $source/*; do
+    if [ ! -d $d ]; then
+      continue
+    fi
     mv -nv $d/* $target/$(basename $d)/
-  fi
-done
+  done
+fi
