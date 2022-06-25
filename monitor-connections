@@ -5,11 +5,11 @@ if [ -e $1 ]; then
   exit 1
 fi
 
-while [ 1 ]
+while true
 do
   echo -----------------------------------------------------------------------------------
   netstat -a | grep "$1"
-  netstat -a | grep "$1" | wc -l
+  netstat -a | grep "$1" -c
   sleep 5
 done
 

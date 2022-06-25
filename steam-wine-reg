@@ -2,7 +2,7 @@
 
 if [ -z $2 ]; then
     echo "Usage:"
-    echo "  `basename $0` <appid> <reg subcommand> [args]*"
+    echo "  $(basename $0) <appid> <reg subcommand> [args]*"
     exit 1
 fi
 

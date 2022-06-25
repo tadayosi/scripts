@@ -1,12 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -z $1 ]; then
-  echo "Usage: `basename $0` <pod name>"
+  echo "Usage: $(basename $0) <pod name>"
   exit 1
 fi
 
 pods="$(oc get pods -o name | grep $1)"
-n=`echo "$pods" | wc -l`
+n=$(echo "$pods" | wc -l)
 if [ "$pods" == "" ]; then
   echo -e "\033[1;31mPod name \"$1\" not found\033[0m"
   exit 0

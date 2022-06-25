@@ -1,9 +1,11 @@
 #!/bin/sh
 
+# shellcheck disable=SC2010,SC2038
+
 #dirs=`git clean -dxn | cut -d' ' -f3 | sort | uniq`
-dirs=`find . -name target -type d | xargs dirname | sort | uniq`
+dirs=$(find . -name target -type d | xargs dirname | sort | uniq)
 for dir in $dirs; do
-  wc=`ls $dir | grep -E "pom.xml|src" | wc -l`
+  wc=$(ls $dir | grep -E "pom.xml|src" -c)
   if [ $wc -eq 0 ]; then
     echo Clean $dir
     rm -r $dir

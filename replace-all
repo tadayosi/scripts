@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -z $2 ]; then
     echo "Usage:"
-    echo "  `basename $0` <target> <replace>"
+    echo "  $(basename $0) <target> <replace>"
     exit 1
 fi
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo =======================================================
 echo Run the following command on host OS before executing
@@ -9,12 +9,12 @@ echo =======================================================
 echo
 
 if [ -z $1 ]; then
-  echo "Usage: `basename $0` <vm name>"
+  echo "Usage: $(basename $0) <vm name>"
   exit 1
 fi
 
 VM_NAME=$1
-RUNNING_VM=`vboxmanage list runningvms | grep $VM_NAME`
+RUNNING_VM=$(vboxmanage list runningvms | grep $VM_NAME)
 if [ "$RUNNING_VM" != "" ]; then
   echo "Running VMs:"
   echo "  $RUNNING_VM"
@@ -22,7 +22,7 @@ if [ "$RUNNING_VM" != "" ]; then
   exit 1
 fi
 
-LOCATION=`vboxmanage list -l hdds | grep Location | grep $VM_NAME | awk '{ print $2 }'`
+LOCATION=$(vboxmanage list -l hdds | grep Location | grep $VM_NAME | awk '{ print $2 }')
 if [ "$LOCATION" == "" ]; then
   echo "Error - location not found: $LOCATION"
   exit 1

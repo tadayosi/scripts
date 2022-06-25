@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd
+cd || exit
 if [ -e .git_ ]; then
     mv .git_ .git
 fi

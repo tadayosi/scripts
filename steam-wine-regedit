@@ -2,7 +2,7 @@
 
 if [ -z $1 ]; then
     echo "Usage:"
-    echo "  `basename $0` <appid>"
+    echo "  $(basename $0) <appid>"
     exit 1
 fi
 

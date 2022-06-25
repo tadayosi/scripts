@@ -1,0 +1,2 @@
+lint:
+	./.make-lint.sh
