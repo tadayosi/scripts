@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if ! which aqua &>/dev/null; then
+  echo "aqua command not found."
+  exit 1
+fi
+
+aqua_config=aqua.yaml
+if [ ! -e $aqua_config ]; then
+  aqua_config=.aqua.yaml
+  if [ ! -e $aqua_config ]; then
+    echo "aqua.yaml not found."
+    exit 1
+  fi
+fi
+
+temp=$(mktemp aqua-XXXXX --suffix=.yaml --dry-run)
+echo "Using temp config: $temp"
+aqua init $temp
+
+yq .packages[].name $aqua_config | cut -d@ -f1 | aqua -c $temp g -i -f -
+
+# merge registries other than standard
+yq '.registries[] | select(.type != "standard") | {"registries": [.]}' $aqua_config | yq eval-all '. as $item ireduce ({}; . *+ $item)' $temp - > merged-$temp
+mv merged-$temp $temp
+
+mv $temp $aqua_config
