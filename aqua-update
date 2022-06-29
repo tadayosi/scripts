@@ -4,12 +4,16 @@ if ! which aqua &>/dev/null; then
   echo "aqua command not found."
   exit 1
 fi
+if ! which yq &>/dev/null; then
+  echo "yq command is required to run."
+  exit 1
+fi
 
 aqua_config=aqua.yaml
 if [ ! -e $aqua_config ]; then
   aqua_config=.aqua.yaml
   if [ ! -e $aqua_config ]; then
-    echo "aqua.yaml not found."
+    echo "aqua.yaml and .aqua.yaml not found."
     exit 1
   fi
 fi
