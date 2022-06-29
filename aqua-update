@@ -1,5 +1,13 @@
 #!/bin/bash
 
+#
+# This script updates the aqua config (aqua.yaml | .aqua.yaml) in the current directory.
+# It updates the version of the standard registry and then update the packages in the config
+# to their latest versions.
+#
+# After running the script, you'll need to do `aqua i` to apply the changes in the config.
+#
+
 if ! which aqua &>/dev/null; then
   echo "aqua command not found."
   exit 1
