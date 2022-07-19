@@ -26,6 +26,7 @@ if [ ! -e $aqua_config ]; then
     exit 1
   fi
 fi
+echo "Updating $aqua_config"
 
 temp=$(mktemp aqua-XXXXX --suffix=.yaml --dry-run)
 echo "Using temp config: $temp"
