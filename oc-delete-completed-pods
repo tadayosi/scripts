@@ -1,7 +1,0 @@
-#!/bin/sh
-
-color=$(tput setaf 2)
-end=$(tput sgr0)
-
-echo ${color}"> oc get pods --field-selector=status.phase=Succeeded --no-headers | cut -d' ' -f1 | xargs -r oc delete pod"${end}
-oc get pods --field-selector=status.phase=Succeeded --no-headers | cut -d' ' -f1 | xargs -r oc delete pod
