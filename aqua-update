@@ -34,7 +34,7 @@ aqua init "$temp"
 
 # merge registries other than standard
 # shellcheck disable=SC2016
-yq '.registries[] | select(.type != "standard") | {"registries": [.]}' $aqua_config | yq eval-all '. as $item ireduce ({}; . *+ $item)' "$temp" - > "merged-$temp"
+yq '.registries[] | select(.type != "standard") | {"registries": [.]}' $aqua_config | yq eval-all '. as $item ireduce ({}; . *+ $item)' "$temp" - | sed 's/^  //' > "merged-$temp"
 mv "merged-$temp" "$temp"
 
 yq '.packages[] | ((.registry // "standard") + "," + .name)' $aqua_config | cut -d@ -f1 | xargs aqua -c "$temp" g -i -f -
